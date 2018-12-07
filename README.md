@@ -1,20 +1,14 @@
-
-
-## Instructions for this Terraform template
-
-Use this module template to scaffold a new one. Remember to change the following:
-
-- [ ] The descriptions and build badges in this [README](README).
-- [ ] Any examples in this section [examples](#examples).
-- [ ] Update [CODEOWNERS](CODEOWNERS).
-
-
-# Terraform Template Module
+# Static Site
 
 [![Build Status](https://travis-ci.com/telia-oss/terraform-module-template.svg?branch=master)](https://travis-ci.com/telia-oss/terraform-aws-static-site)
 ![](https://img.shields.io/maintenance/yes/2018.svg)
 
-Terraform module which creates *describe your intent* resources on AWS.
+Use this module to create a static website that is hosted in S3 and delivered everywhere from local edge locations using Cloudfront
+#### Prerequisites
+AWS Account with hosted zone for domain to deploy to
+
+#### Note
+This module creates a us-east-1 certificate as this is a requirement for cloudfront.
 
 ## Examples
 
@@ -27,3 +21,5 @@ Currently maintained by [these contributors](../../graphs/contributors).
 ## License
 
 MIT License. See [LICENSE](LICENSE) for full details.
+
+

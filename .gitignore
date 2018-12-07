@@ -1,3 +1,6 @@
+#InteliJ IDE
+.idea/
+
 # Terraform
 **/.terraform
 **/*.tfstate*
