@@ -11,4 +11,9 @@ data "aws_subnet_ids" "main" {
 }
 
 # REST OF THE EXAMPLE
-
+module "static-example" {
+  source      = "../../"
+  name_prefix = "static-example"
+  domain_name = "example.com"
+  zone_id     = "<zone_id>"
+}
