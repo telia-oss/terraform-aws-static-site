@@ -10,7 +10,8 @@ variable "domain_name" {
 }
 
 variable "bucket_versioning" {
-  default = "true"
+  description = "(Optional) Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket."
+  default     = "true"
 }
 
 variable "zone_id" {
