@@ -9,6 +9,10 @@ variable "domain_name" {
   description = "The domain (or subdomain) for this site."
 }
 
+variable "bucket_versioning" {
+  default = "true"
+}
+
 variable "zone_id" {
   description = "The ID of the hosted zone to contain the dns record for this site."
 }

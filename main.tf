@@ -40,6 +40,10 @@ resource "aws_s3_bucket" "website_bucket" {
     index_document = "index.html"
     error_document = "index.html"
   }
+
+  versioning {
+    enabled = "${var.bucket_versioning}"
+  }
 }
 
 resource "aws_s3_bucket_policy" "website_bucket_policy" {
