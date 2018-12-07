@@ -7,6 +7,9 @@ Use this module to create a static website that is hosted in S3 and delivered ev
 #### Prerequisites
 AWS Account with hosted zone for domain to deploy to
 
+#### Note
+This module creates a us-east-1 certificate as this is a requirement for cloudfront.
+
 ## Examples
 
 * [Simple Example](examples/default/example.tf)
@@ -18,3 +21,5 @@ Currently maintained by [these contributors](../../graphs/contributors).
 ## License
 
 MIT License. See [LICENSE](LICENSE) for full details.
+
+
