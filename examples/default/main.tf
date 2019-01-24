@@ -14,5 +14,5 @@ module "static-example" {
   source           = "../../"
   name_prefix      = "static-example"
   hosted_zone_name = "example.com"
-  site_name = "www.example.com"
+  site_name        = "www.example.com"
 }
