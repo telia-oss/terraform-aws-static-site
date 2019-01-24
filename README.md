@@ -12,7 +12,7 @@ This module creates a us-east-1 certificate as this is a requirement for cloudfr
 
 ## Examples
 
-* [Simple Example](examples/default/example.tf)
+* [Simple Example](examples/default/main.tf)
 
 ## Authors
 
