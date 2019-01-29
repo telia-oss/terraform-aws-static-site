@@ -8,7 +8,7 @@ provider "aws" {
 }
 
 resource "aws_acm_certificate" "cert_website" {
-  domain_name       = "${var.host_name}.${var.domain_name}"
+  domain_name       = "${var.site_name}"
   validation_method = "DNS"
   provider          = "aws.virginia"
   tags              = "${var.tags}"
@@ -18,10 +18,14 @@ resource "aws_acm_certificate" "cert_website" {
   }
 }
 
+data "aws_route53_zone" "main" {
+  name = "${var.hosted_zone_name}"
+}
+
 resource "aws_route53_record" "cert_website_validation" {
   name    = "${aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_name}"
   type    = "${aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_type}"
-  zone_id = "${var.zone_id}"
+  zone_id = "${data.aws_route53_zone.main.id}"
   records = ["${aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_value}"]
   ttl     = 60
 }
@@ -128,9 +132,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 }
 
 resource "aws_route53_record" "wwww_a" {
-  name    = "${var.host_name}.${var.domain_name}."
+  name    = "${var.site_name}."
   type    = "A"
-  zone_id = "${var.zone_id}"
+  zone_id = "${data.aws_route53_zone.main.id}"
 
   alias {
     name                   = "${aws_cloudfront_distribution.s3_distribution.domain_name}"
