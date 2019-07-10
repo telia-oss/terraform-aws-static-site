@@ -16,10 +16,11 @@ variable "bucket_versioning" {
 
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "site_name" {
   description = "The name of the certificate and address for the site"
 }
+
