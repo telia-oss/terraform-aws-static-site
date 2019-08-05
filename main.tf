@@ -23,10 +23,10 @@ data "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_record" "cert_website_validation" {
-  name    = aws_acm_certificate.cert_website.domain_validation_options[0].resource_record_name
-  type    = aws_acm_certificate.cert_website.domain_validation_options[0].resource_record_type
+  name    = aws_acm_certificate.cert_website.domain_validation_options.resource_record_name
+  type    = aws_acm_certificate.cert_website.domain_validation_options.resource_record_type
   zone_id = data.aws_route53_zone.main.id
-  records = [aws_acm_certificate.cert_website.domain_validation_options[0].resource_record_value]
+  records = [aws_acm_certificate.cert_website.domain_validation_options.resource_record_value]
   ttl     = 60
 }
 
