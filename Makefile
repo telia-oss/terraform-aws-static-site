@@ -3,7 +3,7 @@ default: test
 
 test:
 	@echo "== Test =="
-	@if ! terraform fmt -write=false -check=true >> /dev/null; then \
+	@if ! terraform fmt -recursive -write=false -check=true >> /dev/null; then \
 		echo "✗ terraform fmt failed: $$d"; \
 		exit 1; \
 	else \
