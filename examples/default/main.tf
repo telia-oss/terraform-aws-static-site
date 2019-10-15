@@ -7,7 +7,7 @@ data "aws_vpc" "main" {
 }
 
 data "aws_subnet_ids" "main" {
-  vpc_id = "${data.aws_vpc.main.id}"
+  vpc_id = data.aws_vpc.main.id
 }
 
 module "static-example" {
@@ -16,3 +16,4 @@ module "static-example" {
   hosted_zone_name = "example.com"
   site_name        = "www.example.com"
 }
+
