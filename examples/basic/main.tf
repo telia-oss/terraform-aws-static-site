@@ -7,9 +7,19 @@ provider "aws" {
   region  = var.region
 }
 
-module "template" {
-  source      = "../../"
-  name_prefix = var.name_prefix
+data "aws_vpc" "main" {
+  default = true
+}
+
+data "aws_subnet_ids" "main" {
+  vpc_id = data.aws_vpc.main.id
+}
+
+module "static-example" {
+  source           = "../../"
+  name_prefix      = "static-example"
+  hosted_zone_name = "example.com"
+  site_name        = "www.example.com"
 
   tags = {
     environment = "dev"
