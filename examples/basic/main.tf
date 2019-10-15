@@ -1,5 +1,10 @@
+terraform {
+  required_version = ">= 0.12"
+}
+
 provider "aws" {
-  region = "eu-west-1"
+  version = ">= 2.27"
+  region  = var.region
 }
 
 data "aws_vpc" "main" {
@@ -15,5 +20,9 @@ module "static-example" {
   name_prefix      = "static-example"
   hosted_zone_name = "example.com"
   site_name        = "www.example.com"
-}
 
+  tags = {
+    environment = "dev"
+    terraform   = "True"
+  }
+}
