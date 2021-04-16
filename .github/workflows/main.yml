@@ -1,16 +1,16 @@
 name: workflow
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Install Terraform
-      run: |
-        curl -sL https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip -o terraform.zip
-        sudo unzip terraform.zip -d /usr/bin && rm -f terraform.zip
+    - uses: actions/checkout@v2
+    - name: HashiCorp - Setup Terraform
+      uses: hashicorp/setup-terraform@v1.2.1
+      with:
+        terraform_version: 0.14.10
     - name: Install Taskfile
       run: curl -sL https://taskfile.dev/install.sh | sh
     - name: Run tests

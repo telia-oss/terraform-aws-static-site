@@ -1,10 +1,9 @@
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.14"
 }
 
 provider "aws" {
-  version = ">= 2.27"
-  region  = var.region
+  region = var.region
 }
 
 data "aws_vpc" "main" {
@@ -18,8 +17,8 @@ data "aws_subnet_ids" "main" {
 module "static-example" {
   source           = "../../"
   name_prefix      = "static-example"
-  hosted_zone_name = "example.com"
-  site_name        = "www.example.com"
+  hosted_zone_name = "<route53-zone-name>"
+  site_name        = "www.example.com.<route53-zone-name>"
 
   tags = {
     environment = "dev"
