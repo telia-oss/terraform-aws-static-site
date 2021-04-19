@@ -2,9 +2,8 @@
 # Resources
 # ------------------------------------------------------------------------------
 provider "aws" {
-  region  = "us-east-1"
-  alias   = "virginia"
-  version = "~> 2.23"
+  region = "us-east-1"
+  alias  = "virginia"
 }
 
 resource "aws_acm_certificate" "cert_website" {
