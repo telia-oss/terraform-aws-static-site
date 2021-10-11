@@ -36,7 +36,7 @@ resource "aws_acm_certificate_validation" "main" {
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket_prefix = "${var.name_prefix}-static-website-bucket"
+  bucket_prefix = "${var.name_prefix}-website"
   acl           = "private"
 
   website {
