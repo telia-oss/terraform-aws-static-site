@@ -28,3 +28,7 @@ variable "site_name" {
   type        = string
 }
 
+variable "bucket_name" {
+  description = "(Optional) A bucket name for the static website content. If this variable is not set a random name prefixed with <name_prefix>-static-website-bucket will be used.  "
+  default = null
+}
