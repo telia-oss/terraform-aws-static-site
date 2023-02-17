@@ -1,7 +1,6 @@
 # Static Site
 
-[![Build Status](https://travis-ci.com/telia-oss/terraform-module-template.svg?branch=master)](https://travis-ci.com/telia-oss/terraform-aws-static-site)
-![](https://img.shields.io/maintenance/yes/2018.svg)
+[![workflow](https://github.com/telia-oss/terraform-aws-static-site/workflows/workflow/badge.svg)](https://github.com/telia-oss/terraform-aws-static-site/actions)
 
 Use this module to create a static website that is hosted in S3 and delivered everywhere from local edge locations using Cloudfront
 #### Prerequisites

@@ -2,10 +2,11 @@
 # Resources
 # ------------------------------------------------------------------------------
 provider "aws" {
-  region  = "us-east-1"
-  alias   = "virginia"
-  version = "~> 2.23"
+  region = "us-east-1"
+  alias  = "virginia"
 }
+
+data "aws_caller_identity" "current" {}
 
 resource "aws_acm_certificate" "cert_website" {
   domain_name       = var.site_name
@@ -23,30 +24,60 @@ data "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_record" "cert_website_validation" {
-  name    = aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_type
-  zone_id = data.aws_route53_zone.main.id
-  records = [aws_acm_certificate.cert_website.domain_validation_options.0.resource_record_value]
-  ttl     = 60
+  for_each = {
+    for dvo in aws_acm_certificate.cert_website.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.main.id
 }
 
 resource "aws_acm_certificate_validation" "main" {
   certificate_arn         = aws_acm_certificate.cert_website.arn
-  validation_record_fqdns = [aws_route53_record.cert_website_validation.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.cert_website_validation : record.fqdn]
   provider                = aws.virginia
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket_prefix = "${var.name_prefix}-static-website-bucket"
-  acl           = "private"
+  bucket = var.bucket_name == null ? "${data.aws_caller_identity.current.account_id}-${var.name_prefix}-static-website-bucket" : var.bucket_name
+}
 
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
+resource "aws_s3_bucket_versioning" "website_bucket_versioning" {
+  bucket = aws_s3_bucket.website_bucket.id
+  versioning_configuration {
+    status = var.bucket_versioning
   }
+}
 
-  versioning {
-    enabled = var.bucket_versioning
+resource "aws_s3_bucket_website_configuration" "website_bucket_configuration" {
+  bucket = aws_s3_bucket.website_bucket.id
+  index_document {
+    suffix = "index.html"
+  }
+  error_document {
+    key = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_acl" "website_bucket_acl" {
+  bucket = aws_s3_bucket.website_bucket.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "website_bucket_sse" {
+  bucket = aws_s3_bucket.website_bucket.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -131,7 +162,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 
-resource "aws_route53_record" "wwww_a" {
+resource "aws_route53_record" "www_a" {
   name    = "${var.site_name}."
   type    = "A"
   zone_id = data.aws_route53_zone.main.id
