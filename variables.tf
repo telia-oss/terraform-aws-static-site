@@ -13,8 +13,8 @@ variable "hosted_zone_name" {
 
 variable "bucket_versioning" {
   description = "(Optional) Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket."
-  type        = bool
-  default     = true
+  type        = string
+  default     = "Enabled"
 }
 
 variable "tags" {
